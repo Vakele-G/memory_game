@@ -54,4 +54,26 @@ class GameState extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  void submitAnswer(String input) {
+    if (phase != GamePhase.recalling) return;
+
+    // Sort the input and tile letters
+    List<String> inputChars = input.trim().toUpperCase().split("")..sort();
+    List<String> targetChars = List.from(targetLetters)..sort();
+
+    if (inputChars.join() == targetChars.join()) {
+      resultMessage = "Perfect! You remembered all of them,";
+    } else {
+      resultMessage = "Not quite! The letters were: ${targetChars.join(', ')}";
+    }
+
+    phase = GamePhase.finished;
+
+    // Reveal the tiles again
+    for (var tile in tiles) {
+      if (tile.letter != null) tile.isFlipped = true;
+    }
+    notifyListeners();
+  }
 }
