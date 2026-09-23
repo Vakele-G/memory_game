@@ -13,7 +13,7 @@ class GameState extends ChangeNotifier {
   GamePhase phase = GamePhase.initial;
   String resultMessage = "";
 
-  final int totalTiles = 64;
+  final int totalTiles = 42;
   final int targetCount = 7;
   final Random _random = Random();
 

@@ -41,7 +41,10 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Letter Memory")),
+      appBar: AppBar(
+        //titleTextStyle: TextStyle(fontFamily: "sans-seriff"),
+        title: const Text("Letter Memory"),
+      ),
       body: Consumer<GameState>(
         builder: (context, gameState, childe) {
           return Padding(
@@ -63,15 +66,15 @@ class _GameScreenState extends State<GameScreen> {
                   child: Center(
                     child: ConstrainedBox(
                       // Constrain width so it doesn't stretch too wide on tablets
-                      constraints: const BoxConstraints(maxWidth: 500),
+                      constraints: const BoxConstraints(maxWidth: 400),
                       child: GridView.builder(
                         shrinkWrap: true,
                         itemCount: gameState.tiles.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 8,
-                              crossAxisSpacing: 4,
-                              mainAxisSpacing: 4,
+                              crossAxisCount: 6,
+                              crossAxisSpacing: 1,
+                              mainAxisSpacing: 1,
                             ),
                         itemBuilder: (context, index) {
                           return TileWidget(tile: gameState.tiles[index]);
