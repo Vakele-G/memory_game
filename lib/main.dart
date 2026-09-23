@@ -150,3 +150,16 @@ class Tile extends StatelessWidget {
     );
   }
 }
+
+String _getStatusText(GamePhase phase) {
+  switch (phase) {
+    case GamePhase.memorizing:
+      return "Memorize the letters!";
+    case GamePhase.recalling:
+      return "Type what you remember.";
+    case GamePhase.finished:
+      return "Game Over!";
+    default:
+      return "Get Ready...";
+  }
+}
