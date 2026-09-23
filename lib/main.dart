@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'game_state.dart';
+import 'tile_widget.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => GameState(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -9,24 +18,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Expanded(child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 5,
-          children: [
-            for (int j = 1; j <= 7; j++)
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 5,
-                children: [for (int i = 1; i <= 7; i++) Tile()],
-              ),
-          ],
-        ),)
-
-      )
-    );
+    return MaterialApp(title: "Letter Memory", home: const GameScreen());
   }
+}
+
+class GameScreen extends StatefulWidget {
+  const GameScreen({super.key});
+
+  @override
+  State<GameScreen> createState() => _GameScreenState();
 }
 
 class Tile extends StatelessWidget {
@@ -34,17 +34,16 @@ class Tile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-      SizedBox(
-        width: 50,
-        height: 50,
-        child: Card(
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Text("A")],
-          ),
-        )
-      );
+    return SizedBox(
+      width: 50,
+      height: 50,
+      child: Card(
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text("A")],
+        ),
+      ),
+    );
   }
 }
