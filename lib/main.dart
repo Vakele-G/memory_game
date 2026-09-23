@@ -88,6 +88,7 @@ class _GameScreenState extends State<GameScreen> {
                       Expanded(
                         child: TextField(
                           controller: _inputController,
+                          maxLength: gameState.targetCount,
                           decoration: const InputDecoration(
                             hintText: "Type the letters here..",
                             border: OutlineInputBorder(),

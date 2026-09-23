@@ -18,7 +18,7 @@ class TileWidget extends StatelessWidget {
       child: tile.isFlipped
           ? Card(
               key: const ValueKey("front"),
-              color: Colors.blueAccent,
+              color: Colors.red,
               child: Center(
                 child: Text(
                   tile.letter ?? "",
@@ -30,7 +30,11 @@ class TileWidget extends StatelessWidget {
                 ),
               ),
             )
-          : const Card(key: ValueKey("back"), color: Colors.grey),
+          : const Card(
+              key: ValueKey("back"),
+              color: Colors.blueAccent,
+              child: SizedBox.expand(),
+            ),
     );
   }
 }
