@@ -1,3 +1,5 @@
+import 'dart:ui';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,11 +44,20 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //titleTextStyle: TextStyle(fontFamily: "sans-seriff"),
         title: const Text("Letter Memory"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            tooltip: 'Exit Game',
+            onPressed: () {
+              // Tell the OS to safely close the app
+              SystemNavigator.pop();
+            },
+          ),
+        ],
       ),
       body: Consumer<GameState>(
-        builder: (context, gameState, childe) {
+        builder: (context, gameState, child) {
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -67,18 +78,46 @@ class _GameScreenState extends State<GameScreen> {
                     child: ConstrainedBox(
                       // Constrain width so it doesn't stretch too wide on tablets
                       constraints: const BoxConstraints(maxWidth: 400),
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: gameState.tiles.length,
-                        gridDelegate:
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ImageFiltered(imageFilter: ImageFilter.blur(
+                            // If phase is initial, blur by 5 pixels. Else, 0 blur
+                            sigmaX: gameState.phase == GamePhase.initial ? 5.0 : 0,
+                            sigmaY: gameState.phase == GamePhase.initial ? 5.0 : 0,
+                          ),
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            itemCount: gameState.tiles.length,
+                            gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 6,
                               crossAxisSpacing: 1,
                               mainAxisSpacing: 1,
                             ),
-                        itemBuilder: (context, index) {
-                          return TileWidget(tile: gameState.tiles[index]);
-                        },
+                            itemBuilder: (context, index) {
+                              return TileWidget(tile: gameState.tiles[index]);
+                            },
+                          ),
+                          ),
+
+                          // Play button (top layer)
+                          if (gameState.phase == GamePhase.initial)
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+                                  backgroundColor: Colors.redAccent,
+                                  foregroundColor: Colors.white,
+                                ),
+                                onPressed: () {
+                                  gameState.startGame();
+                                },
+                                child: const Text(
+                                  "PLAY",
+                                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                                ),
+                            )
+                        ],
                       ),
                     ),
                   ),

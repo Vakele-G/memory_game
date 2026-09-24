@@ -18,7 +18,8 @@ class GameState extends ChangeNotifier {
   final Random _random = Random();
 
   GameState() {
-    startGame();
+    tiles = List.generate(totalTiles, (index) => TileModel(id: index));
+    phase = GamePhase.initial;
   }
 
   void startGame() {
